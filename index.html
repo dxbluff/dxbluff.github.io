@@ -27,10 +27,10 @@ ColorPlayer2 = "red"
 ColorActive1 = "#AAAAFF"
 ColorActive2 = "#FFAAAA"
 
-Player1  = new Boolean(true);	// ходит первый игрок (тот, что слева)
-Computer = 1;		// 0, 1, 2 - число компьютерных игроков; 3 => сейчас ход компа
+Player1  = new Boolean(true);	// С…РѕРґРёС‚ РїРµСЂРІС‹Р№ РёРіСЂРѕРє (С‚РѕС‚, С‡С‚Рѕ СЃР»РµРІР°)
+Computer = 1;		// 0, 1, 2 - С‡РёСЃР»Рѕ РєРѕРјРїСЊСЋС‚РµСЂРЅС‹С… РёРіСЂРѕРєРѕРІ; 3 => СЃРµР№С‡Р°СЃ С…РѕРґ РєРѕРјРїР°
 fGame = 1;
-Delay = 0;		// Время (мс) ответа компа
+Delay = 0;		// Р’СЂРµРјСЏ (РјСЃ) РѕС‚РІРµС‚Р° РєРѕРјРїР°
 
 Cell = new Array( NumRows );
 for( var i=0; i < NumRows; i++ )
@@ -50,7 +50,7 @@ function Initialize()
 {
 	PageLoaded = true;
 
-	// читаем имена из куков
+	// С‡РёС‚Р°РµРј РёРјРµРЅР° РёР· РєСѓРєРѕРІ
 	var value = getCookie(cook_name1)
 	if( value ) Name1.innerText = value
 	value = getCookie(cook_name2)
@@ -111,17 +111,17 @@ function CompAttack()
 {
 	var i, j;
 
-	// выбираем возможные ходы
+	// РІС‹Р±РёСЂР°РµРј РІРѕР·РјРѕР¶РЅС‹Рµ С…РѕРґС‹
 	for( i=0; i<NumCols; i++ )
 	{
 		for( j=0; j<NumRows && !CanMove(i,j); j++ );
-		// "шаг до победы"
+		// "С€Р°Рі РґРѕ РїРѕР±РµРґС‹"
 		if( (MoveAble[i]=j) != NumRows )
 			if( TestWin((Player1)?1:2, i, MoveAble[i]) )
 				{ CompMove( i ); return; }
 	}
 			
-	// "шаг до поражения"
+	// "С€Р°Рі РґРѕ РїРѕСЂР°Р¶РµРЅРёСЏ"
 	for( i=0; i<NumCols; i++ )
 		if( MoveAble[i] != NumRows )
 			if( TestWin((Player1)?2:1, i, MoveAble[i]) )
@@ -133,7 +133,7 @@ function CompAttack()
 	for( i=0; i < NumCols; i++ )
 		SetPrioritet(i);
 
-	// выбираем один из столбцов с макс. приоритетом
+	// РІС‹Р±РёСЂР°РµРј РѕРґРёРЅ РёР· СЃС‚РѕР»Р±С†РѕРІ СЃ РјР°РєСЃ. РїСЂРёРѕСЂРёС‚РµС‚РѕРј
 	var Max=0, NumMax=0;
 	for( i=0; i < NumCols; i++ )
 	{
@@ -145,7 +145,7 @@ function CompAttack()
 
 	if( !Max )
 	{	
-		alert("Ничья!"); 
+		alert("РќРёС‡СЊСЏ!"); 
 		return;	
 	}
 
@@ -193,7 +193,7 @@ function Win()
 {
 	fGame = 0;
 	var n = (Player1)? 1: 2;
-	alert( d.all.tags("p")["Name"+n].innerText +" победил!!!")
+	alert( d.all.tags("p")["Name"+n].innerText +" РїРѕР±РµРґРёР»!!!")
 }
 
 function CompMove( i )
@@ -207,14 +207,14 @@ function CompMove( i )
 function TestWin( target, x, y )
 {
 	var i, j;
-	// по вертикали
+	// РїРѕ РІРµСЂС‚РёРєР°Р»Рё
 	for( i=1; i<4 && !( y<i || Cell[y-i][x] != target ); i++ );
 	if( i == 4 ) return 1;
-	// по горизонтали
+	// РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
 	for( i=1; i<4 && !( x<i || Cell[y][x-i] != target); i++ );
 	for( j=1; j<4 && !( (x+j==NumCols) || Cell[y][x+j] != target ); j++ );
 	if( i+j > 4 ) return 1;
-	// по диагонали "/"
+	// РїРѕ РґРёР°РіРѕРЅР°Р»Рё "/"
 	for( i=1; i<4 && !( x<i || y<i || Cell[y-i][x-i] != target); i++ );
 	for( j=1; j<4 && !( (x+j==NumCols) || (y+j==NumRows) || Cell[y+j][x+j] != target ); j++ );
 	if( i+j > 4 ) return 1;
@@ -245,7 +245,7 @@ function OverCell( obj )
 
 function InputName( obj )
 {
-	var s = prompt( "Введите имя:",obj.innerText );
+	var s = prompt( "Р’РІРµРґРёС‚Рµ РёРјСЏ:",obj.innerText );
 	if( s ) obj.innerText = s;
 }
 
@@ -256,7 +256,7 @@ function CompCheckBox( obj )
 
 	if( c1 && c2 )
 	{
-		if( confirm("Комп мочит компа?!") )
+		if( confirm("РљРѕРјРї РјРѕС‡РёС‚ РєРѕРјРїР°?!") )
 			Computer = 2
 		else
 			obj.checked=0;
@@ -274,20 +274,20 @@ function CompCheckBox( obj )
 function DisplayRules()
 {
 	alert(
-	  "Цель: поставить подряд 4 кирпича одного цвета\n"
-	+ "(по вертикали, горизонтали или диагонали).\n"
-	+ "Заполнение поля идет СНИЗУ ВВЕРХ. То есть вы не\n"
-	+ "можете поставить кирпич, если под ним пусто.\n\n"
-	+ "Идея моя. Ну и ладно...\n\n"
-	+ "Интереснее играть вдвоем, т.е. против другого человека.\n"
-	+ "Чтобы поменять имя игрока надо просто ткнуть на его имя.\n\n"
-	+ "Чтобы посмотреть демонстрацию выберите задержку\n"
-	+ "равной 1 сек и отметьте две галочки Computer.\n\n"
-	+ "Алгоритм не доработан, поэтому комп туповатый. :)\n\n"	
-	+ "Шевели мозгами и все получится._______ DX_BLUFF  :) ________\n\n"
-	+ "В будущем будут разрабатыватся другие версии ИГРЫ!\n"
-	+ "Этот мод создан на основе игры Крестики & Нолики\n"
-	+ "Если эта игра понравился вам-Все благодарности по адресу:\n"
+	  "Р¦РµР»СЊ: РїРѕСЃС‚Р°РІРёС‚СЊ РїРѕРґСЂСЏРґ 4 РєРёСЂРїРёС‡Р° РѕРґРЅРѕРіРѕ С†РІРµС‚Р°\n"
+	+ "(РїРѕ РІРµСЂС‚РёРєР°Р»Рё, РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё РёР»Рё РґРёР°РіРѕРЅР°Р»Рё).\n"
+	+ "Р—Р°РїРѕР»РЅРµРЅРёРµ РїРѕР»СЏ РёРґРµС‚ РЎРќРР—РЈ Р’Р’Р•Р РҐ. РўРѕ РµСЃС‚СЊ РІС‹ РЅРµ\n"
+	+ "РјРѕР¶РµС‚Рµ РїРѕСЃС‚Р°РІРёС‚СЊ РєРёСЂРїРёС‡, РµСЃР»Рё РїРѕРґ РЅРёРј РїСѓСЃС‚Рѕ.\n\n"
+	+ "РРґРµСЏ РјРѕСЏ. РќСѓ Рё Р»Р°РґРЅРѕ...\n\n"
+	+ "РРЅС‚РµСЂРµСЃРЅРµРµ РёРіСЂР°С‚СЊ РІРґРІРѕРµРј, С‚.Рµ. РїСЂРѕС‚РёРІ РґСЂСѓРіРѕРіРѕ С‡РµР»РѕРІРµРєР°.\n"
+	+ "Р§С‚РѕР±С‹ РїРѕРјРµРЅСЏС‚СЊ РёРјСЏ РёРіСЂРѕРєР° РЅР°РґРѕ РїСЂРѕСЃС‚Рѕ С‚РєРЅСѓС‚СЊ РЅР° РµРіРѕ РёРјСЏ.\n\n"
+	+ "Р§С‚РѕР±С‹ РїРѕСЃРјРѕС‚СЂРµС‚СЊ РґРµРјРѕРЅСЃС‚СЂР°С†РёСЋ РІС‹Р±РµСЂРёС‚Рµ Р·Р°РґРµСЂР¶РєСѓ\n"
+	+ "СЂР°РІРЅРѕР№ 1 СЃРµРє Рё РѕС‚РјРµС‚СЊС‚Рµ РґРІРµ РіР°Р»РѕС‡РєРё Computer.\n\n"
+	+ "РђР»РіРѕСЂРёС‚Рј РЅРµ РґРѕСЂР°Р±РѕС‚Р°РЅ, РїРѕСЌС‚РѕРјСѓ РєРѕРјРї С‚СѓРїРѕРІР°С‚С‹Р№. :)\n\n"	
+	+ "РЁРµРІРµР»Рё РјРѕР·РіР°РјРё Рё РІСЃРµ РїРѕР»СѓС‡РёС‚СЃСЏ._______ DX_BLUFF  :) ________\n\n"
+	+ "Р’ Р±СѓРґСѓС‰РµРј Р±СѓРґСѓС‚ СЂР°Р·СЂР°Р±Р°С‚С‹РІР°С‚СЃСЏ РґСЂСѓРіРёРµ РІРµСЂСЃРёРё РР“Р Р«!\n"
+	+ "Р­С‚РѕС‚ РјРѕРґ СЃРѕР·РґР°РЅ РЅР° РѕСЃРЅРѕРІРµ РёРіСЂС‹ РљСЂРµСЃС‚РёРєРё & РќРѕР»РёРєРё\n"
+	+ "Р•СЃР»Рё СЌС‚Р° РёРіСЂР° РїРѕРЅСЂР°РІРёР»СЃСЏ РІР°Рј-Р’СЃРµ Р±Р»Р°РіРѕРґР°СЂРЅРѕСЃС‚Рё РїРѕ Р°РґСЂРµСЃСѓ:\n"
 	+ "                     DX_BLUFF@mail.ru\n"
 	);
 }
@@ -335,7 +335,7 @@ function getCookie(name)
 <table border="0" cellpadding="0" width="100%">
 <tr>
 	<td width="25%" align="center" valign="top" style="padding-right: 30">
-		<p id="Name1" class="PLAYER" style="border-color: blue" onclick="InputName(this);setCookie(cook_name1,this.innerText)">ТЫ</p>
+		<p id="Name1" class="PLAYER" style="border-color: blue" onclick="InputName(this);setCookie(cook_name1,this.innerText)">РўР«</p>
 		<form name="Player1"><input type="checkbox" name="CompCheck" onclick="CompCheckBox(this)" value="ON" id=c1><label for=c1>computer</label></form>
 	</td>
 
@@ -361,7 +361,7 @@ function getCookie(name)
 	</td>
 
 	<td width="25%" align="center" valign="top" style="padding-left: 30">
-		<p id="Name2" class="PLAYER" style="border-color: red" onclick="InputName(this);setCookie(cook_name2,this.innerText)">Компьютер</p>
+		<p id="Name2" class="PLAYER" style="border-color: red" onclick="InputName(this);setCookie(cook_name2,this.innerText)">РљРѕРјРїСЊСЋС‚РµСЂ</p>
 		<form name="Player2"><input type="checkbox" name="CompCheck" onclick="CompCheckBox(this)" checked value="ON" id=c2><label for=c2>computer</label></form>
 	</td>
 </table>
@@ -369,29 +369,29 @@ function getCookie(name)
 <table border="0" cellpadding="0" width="100%" height="18%" cellspacing="0">
 <tr>
 	<td width="33%" align="left" valign="bottom">
-	<form name="Rules">&nbsp; <input class=btn type="button" value="Правила" onclick="DisplayRules()"></form>
+	<form name="Rules">&nbsp; <input class=btn type="button" value="РџСЂР°РІРёР»Р°" onclick="DisplayRules()"></form>
 	</td>
 
 	<td width="33%" align="center" valign="bottom">
-	<form name="NewGame"><input class=btn type="button" value="Новая игра" onclick="StartGame()"></form>
+	<form name="NewGame"><input class=btn type="button" value="РќРѕРІР°СЏ РёРіСЂР°" onclick="StartGame()"></form>
 	</td>
 
 	<td width="33%" align="right" valign="bottom">
-	<form>Задержка:&nbsp; <select class=btn style="background:white;cursor:default" name="DelayList" onchange="Delay=this.options[this.selectedIndex].value">
+	<form>Р—Р°РґРµСЂР¶РєР°:&nbsp; <select class=btn style="background:white;cursor:default" name="DelayList" onchange="Delay=this.options[this.selectedIndex].value">
 		<option value="0" selected>0
 		<option value="500">0.5
 		<option value="1000">1
 		<option value="1500">1.5
 		<option value="2000">2
-		<option value="5000">5</select> сек.&nbsp;&nbsp;
+		<option value="5000">5</select> СЃРµРє.&nbsp;&nbsp;
 	</form>
 	</td>
 </tr>
 </table>
-<h3>Игра реализована хакером из 12 микрорайона. DX_BLUFF</h3> 
-<img src="images/image 2.jpg" alt="Юсуфджанов У.М." align="center"
+<h3>РРіСЂР° СЂРµР°Р»РёР·РѕРІР°РЅР° С…Р°РєРµСЂРѕРј РёР· 12 РјРёРєСЂРѕСЂР°Р№РѕРЅР°. DX_BLUFF</h3> 
+<img src="images/image 2.jpg" alt="Р®СЃСѓС„РґР¶Р°РЅРѕРІ РЈ.Рњ." align="center"
 <p></p> 
-<h3> Для заказа других игр пишите нам на мой  <a href="mailto: DX_BLUFF@mail.ru"> Электронный адрес </a>  </h3>
+<h3> Р”Р»СЏ Р·Р°РєР°Р·Р° РґСЂСѓРіРёС… РёРіСЂ РїРёС€РёС‚Рµ РЅР°Рј РЅР° РјРѕР№  <a href="mailto: DX_BLUFF@mail.ru"> Р­Р»РµРєС‚СЂРѕРЅРЅС‹Р№ Р°РґСЂРµСЃ </a>  </h3>
 
 </body>
 </html>
